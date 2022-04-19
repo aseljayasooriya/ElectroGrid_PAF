@@ -11,6 +11,7 @@ public class BillService {
 	//Object creation
 	Bill billObj = new Bill();
 	
+	//insert bills
 	@POST
 	@Path("/")
 	//to specify the input type as form data
@@ -26,6 +27,7 @@ public class BillService {
 	
 	}
 	
+	//read bills
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
@@ -34,6 +36,8 @@ public class BillService {
 		return billObj.readBills();
 	}
 	
+	
+	//update bills
 	@PUT
 	@Path("/")
 	//to specify the input type as form data
@@ -49,6 +53,7 @@ public class BillService {
 	
 	}
 	
+	//delete bills
 	@DELETE
 	@Path("/")
 	//to specify the input type as form data
