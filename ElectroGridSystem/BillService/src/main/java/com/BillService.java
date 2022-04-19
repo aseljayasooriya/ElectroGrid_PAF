@@ -30,5 +30,13 @@ public class BillService {
 		return output;
 	
 	}
+	
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_HTML)
+	public String raedBills()
+	{
+		return billObj.readBills();
+	}
 
 }
