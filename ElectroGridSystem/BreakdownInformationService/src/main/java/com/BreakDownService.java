@@ -24,7 +24,7 @@ public class BreakDownService {
 	@Produces(MediaType.TEXT_HTML)
 	public String readBreakdowns()
 	{
-		return "Hello";
+		return breakdownObj.readBreakdowns();
 	} 
 	
 	@POST
@@ -37,7 +37,7 @@ public class BreakDownService {
 			 						@FormParam("endTime") String endTime,
 			 						@FormParam("breakdownType") String breakdownType) {
 		
-		String output = breakdownObj.insertItem(breakdownSector, breakdownDate, startTime, endTime, breakdownType);
+		String output = breakdownObj.insertBreakdown(breakdownSector, breakdownDate, startTime, endTime, breakdownType);
 		return output;
 	}
 }
