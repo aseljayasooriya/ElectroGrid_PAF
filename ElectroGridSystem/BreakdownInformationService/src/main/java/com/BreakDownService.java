@@ -26,4 +26,18 @@ public class BreakDownService {
 	{
 		return "Hello";
 	} 
+	
+	@POST
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String insertBreakdown(@FormParam("breakdownSector") String breakdownSector,
+			 						@FormParam("breakdownDate") String breakdownDate,
+			 						@FormParam("startTime") String startTime,
+			 						@FormParam("endTime") String endTime,
+			 						@FormParam("breakdownType") String breakdownType) {
+		
+		String output = breakdownObj.insertItem(breakdownSector, breakdownDate, startTime, endTime, breakdownType);
+		return output;
+	}
 }
