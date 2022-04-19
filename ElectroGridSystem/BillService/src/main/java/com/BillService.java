@@ -53,5 +53,18 @@ public class BillService {
 		return output;
 	
 	}
+	
+	@DELETE
+	@Path("/")
+	//to specify the input type as form data
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	//produce a status message as an output
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deleteBill(@FormParam("billID") String billID) 
+	{ 
+		String output = billObj.deleteBill(billID);
+		return output;
+	
+	}
 
 }
