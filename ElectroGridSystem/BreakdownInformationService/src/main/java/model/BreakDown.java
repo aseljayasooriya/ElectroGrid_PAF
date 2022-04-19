@@ -123,5 +123,77 @@ public class BreakDown {
 		
 		return output;
 	}
+	
+	public String updateBreakdown(String ID, String sector, String date, String sTime, String eTime, String type) {
+		
+		String output = "";
+		
+		try {
+			
+			Connection con = connect();
+			
+			if(con == null) {
+				return "Error while connecting to the database for updating.";
+			}
+			
+			//create the prepared statement
+			String query = "UPDATE breakdowninformation SET breakdownSector=?,breakdownDate=?,startTime=?,endTime=?,breakdownType=? WHERE breakdownID=?";
+			
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			
+			//binding values
+			preparedStmt.setString(1, sector);
+			preparedStmt.setDate(2, Date.valueOf(date));
+			preparedStmt.setTime(3, Time.valueOf(sTime));
+			preparedStmt.setTime(4, Time.valueOf(eTime));
+			preparedStmt.setString(5, type);
+			
+			//execute the statement
+			preparedStmt.execute();
+			con.close();
+			
+			output = "Updated successfully.";
+		}
+		catch (Exception e) {
+			output = "Error while updating the breakdown info.";
+			System.err.println(e.getMessage());
+		}
+		
+		return output;
+	}
+	
+	public String deleteBreakdown(String breakdownID) {
+		
+		String output = "";
+		
+		try {
+			Connection con = connect();
+			
+			if(con == null) {
+				return "Error while connecting to the database for deleting.";
+			}
+			
+			//create a prepared statement
+			String query = "delete from breakdowninformation where breakdownID=?";
+			
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			
+			//binding values
+			preparedStmt.setInt(1, Integer.parseInt(breakdownID));
+			
+			//execute the statement
+			preparedStmt.execute();
+			con.close();
+			
+			output = "Deleted successfully";
+			
+		}
+		catch(Exception e) {
+			output = "Error while deleting the breakdown info.";
+			System.err.println(e.getMessage());
+		}
+		
+		return output;
+	}
 
 }
