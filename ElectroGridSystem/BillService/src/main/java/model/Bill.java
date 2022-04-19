@@ -109,7 +109,7 @@ public class Bill {
 			 
 			 // buttons
 			 output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
-			 + "<td><form method='post' action='items.jsp'>"
+			 + "<td><form method='post' action='bills.jsp'>"
 			 + "<input name='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
 			 + "<input name='itemID' type='hidden' value='" + billID 
 			 + "'>" + "</form></td></tr>"; 
@@ -167,12 +167,13 @@ public class Bill {
 		 } 
 		 catch (Exception e) 
 		 { 
-		 output = "Error while updating the item."; 
+		 output = "Error while updating the bill."; 
 		 System.err.println(e.getMessage()); 
 		 } 
 		 return output;
 	}
 	
+	//Delete method
 	public String deleteBill(String billID) {
 		String output = "";
 		try {
@@ -183,8 +184,10 @@ public class Bill {
 			// create a prepared statement
 			String query = "delete from bill where billID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
+			
 			// binding values
 			preparedStmt.setInt(1, Integer.parseInt(billID));
+			
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
