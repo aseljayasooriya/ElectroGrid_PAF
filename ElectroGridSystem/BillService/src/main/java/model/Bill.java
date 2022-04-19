@@ -125,5 +125,52 @@ public class Bill {
 		 } 
 		 return output; 
 	 } 
+	
+	//Update method
+	public String updateBill(String billID, String billCode, String accountNo, String billMonth, 
+							 String units, String meterReader_name) 
+	{
+		String output = "";
+		
+		//bill calculation
+		 //Conversion of the String variable into double
+		 double unit = Double.parseDouble(units);
+		 double unitPrice = 50.00;
+		 //calculation
+		 double tot = unit*unitPrice;
+		 String amount = Double.toString(tot);
+		 try
+		 { 
+		 Connection con = connect(); 
+		 if (con == null) 
+		 {
+			 return "Error while connecting to the database for updating.";
+		 } 
+		 
+		 // create a prepared statement
+		 String query = "UPDATE bill SET billCode=?,accountNo=?,billMonth=?,units=?, billAmount = ?,meterReader_name=? WHERE billID=?"; 
+		 PreparedStatement preparedStmt = con.prepareStatement(query);
+		 
+		 // binding values
+		 preparedStmt.setString(1, billCode); 
+		 preparedStmt.setString(2, accountNo); 
+		 preparedStmt.setString(3, billMonth); 
+		 preparedStmt.setString(4, units);
+		 preparedStmt.setString(5, amount);
+		 preparedStmt.setString(6, meterReader_name);
+		 preparedStmt.setInt(7, Integer.parseInt(billID));
+		 
+		 // execute the statement
+		 preparedStmt.execute(); 
+		 con.close(); 
+		 output = "Updated successfully"; 
+		 } 
+		 catch (Exception e) 
+		 { 
+		 output = "Error while updating the item."; 
+		 System.err.println(e.getMessage()); 
+		 } 
+		 return output;
+	}
 
 }
