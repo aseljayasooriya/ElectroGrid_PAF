@@ -147,6 +147,7 @@ public class BreakDown {
 			preparedStmt.setTime(3, Time.valueOf(sTime));
 			preparedStmt.setTime(4, Time.valueOf(eTime));
 			preparedStmt.setString(5, type);
+			preparedStmt.setInt(6, Integer.parseInt(ID));
 			
 			//execute the statement
 			preparedStmt.execute();
