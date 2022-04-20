@@ -58,11 +58,11 @@ public class BreakDownService {
 	}
 	
 	@GET
-	@Path("/{breakdownID}")
+	@Path("/{breakdownSector}")
 	@Produces(MediaType.TEXT_HTML)
-	public String sectorBreakdown(@PathParam("breakdownID") String breakdownID)
+	public String sectorBreakdown(@PathParam("breakdownSector") String breakdownSector)
 	{
-		return breakdownObj.readSectorBreakdowns(breakdownID);
+		return breakdownObj.readSectorBreakdowns(breakdownSector);
 	}
 	
 
