@@ -216,15 +216,16 @@ public String readSectorBreakdowns(String bID) {
 					 "<th>Breakdown Type</th>" +
 					 "<th>Update</th><th>Remove</th></tr>";
 			
+			//query for extracting the values
 			String query = "SELECT * FROM breakdowninformation WHERE breakdownID=?";
 			
-			
+			//creating the prepared statement
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			
 			//binding values
 			preparedStmt.setInt(1, Integer.parseInt(bID));
 			
-			
+			//Obtaining the result set
 			ResultSet rs = preparedStmt.executeQuery();
 			
 			
