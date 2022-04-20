@@ -197,7 +197,7 @@ public class BreakDown {
 		return output;
 	}
 	
-public String readSectorBreakdowns(String bID) {
+public String readSectorBreakdowns(String bSector) {
 		
 		String output = "";
 		
@@ -217,13 +217,13 @@ public String readSectorBreakdowns(String bID) {
 					 "<th>Update</th><th>Remove</th></tr>";
 			
 			//query for extracting the values
-			String query = "SELECT * FROM breakdowninformation WHERE breakdownID=?";
+			String query = "SELECT * FROM breakdowninformation WHERE breakdownSector=?";
 			
 			//creating the prepared statement
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			
 			//binding values
-			preparedStmt.setInt(1, Integer.parseInt(bID));
+			preparedStmt.setString(1, bSector);
 			
 			//Obtaining the result set
 			ResultSet rs = preparedStmt.executeQuery();

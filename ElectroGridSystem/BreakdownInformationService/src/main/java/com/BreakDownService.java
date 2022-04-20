@@ -56,5 +56,14 @@ public class BreakDownService {
 		String output = breakdownObj.deleteBreakdown(breakdownID);
 		return output;
 	}
+	
+	@GET
+	@Path("/{breakdownID}")
+	@Produces(MediaType.TEXT_HTML)
+	public String sectorBreakdown(@PathParam("breakdownID") String breakdownID)
+	{
+		return breakdownObj.readSectorBreakdowns(breakdownID);
+	}
+	
 
 }
