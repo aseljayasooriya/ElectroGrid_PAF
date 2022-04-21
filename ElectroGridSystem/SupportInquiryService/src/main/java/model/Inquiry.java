@@ -125,7 +125,7 @@ public class Inquiry {
 	
 	//Update inquiry method
 	
-	public String updateInquiry(int ID,String title, String description,int contact) {
+	public String updateInquiry(String ID,String title, String description,String contact) {
 		String output ="";
 		
 		
@@ -139,15 +139,15 @@ public class Inquiry {
 			
 			//create prepared statement
 			
-			String query ="UPDATE inquiry inquiryID=?,inquiryTitle=?,inquiryDesc=?,contactNum=? WHERE inquiryID=?";
+			String query ="UPDATE inquiry set inquiryTitle=?,inquiryDesc=?,contactNum=? WHERE inquiryID=?";
 			
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			
-			//bind values
-			preparedStmt.setInt(1, ID);
-			preparedStmt.setString(2, title);
-			preparedStmt.setString(3, description);
-			preparedStmt.setInt(4, contact);
+			//bind values		
+			preparedStmt.setString(1, title);
+			preparedStmt.setString(2, description);
+			preparedStmt.setInt(3, Integer.parseInt(contact));
+			preparedStmt.setInt(4, Integer.parseInt(ID));
 			
 			//execute statement
 			preparedStmt.execute();
@@ -168,7 +168,7 @@ public class Inquiry {
 	
 	//Delete Inquiry
 	
-	public String deletInquiry(int inquiryID) {
+	public String deletInquiry(String inquiryID) {
 		String output="";
 		
 		try {
@@ -185,7 +185,7 @@ public class Inquiry {
 			PreparedStatement preparedStmt =con.prepareStatement(query);
 			
 			//bindValues
-			preparedStmt.setInt(1, inquiryID);
+			preparedStmt.setInt(1, Integer.parseInt(inquiryID));
 			
 			//execute the statement
 			preparedStmt.execute();

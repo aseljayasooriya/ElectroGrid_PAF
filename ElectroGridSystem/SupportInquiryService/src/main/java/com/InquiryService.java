@@ -60,10 +60,10 @@ public class InquiryService {
 	//Create status message and output in plain text
 	@Produces(MediaType.TEXT_PLAIN)
 	
-	public String updateInquiry(@FormParam("inquiryID") int inquiryID,
+	public String updateInquiry(@FormParam("inquiryID") String inquiryID,
 								@FormParam("inquiryTitle") String inquiryTitle,
 								@FormParam("inquiryDesc") String inquiryDesc,
-								@FormParam("contactNum") int contactNum) {
+								@FormParam("contactNum") String contactNum) {
 		String output =inqObj.updateInquiry(inquiryID, inquiryTitle, inquiryDesc, contactNum);
 		return output;
 	}
@@ -78,7 +78,7 @@ public class InquiryService {
 	//Create status message and output in plain text
 	@Produces(MediaType.TEXT_PLAIN)
 	
-	public String deletInquiry(@FormParam("inquiryID") int inquiryID) {
+	public String deletInquiry(@FormParam("inquiryID") String inquiryID) {
 		String output =inqObj.deletInquiry(inquiryID);
 		return output;
 	}
