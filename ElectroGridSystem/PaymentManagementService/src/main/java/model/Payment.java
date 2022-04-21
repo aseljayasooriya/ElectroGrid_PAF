@@ -63,4 +63,73 @@ public class Payment {
 			
 			return output;
 		}
-}
+		
+		
+		//read method
+		
+		public String readPayment()
+		{
+			String output="";
+			
+			try {
+				
+				Connection con = connect();
+				
+				if(con==null) {
+					return "Error while connecting to the database for reading the Payment";
+				}
+				//creating a table using html to display the payments
+				output ="<table border ='1'><tr><th>Account Number</th><th>Payment Amount</th><th>Payment Method</th><th>Card Number</th><th>email</th><th>Update</th><th>Remove</th></tr>";
+				
+				String query = "select * from payment";
+							
+						
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				
+				//go through all the rows in the result set using a while loop
+				
+				while(rs.next()) 
+					{
+					
+					String paymentID = Integer.toString(rs.getInt("paymentID"));
+					String accountNo = rs.getString("accountNo");
+					String paymentAmount = Double.toString(rs.getDouble("paymentAmount"));
+					String paymentMethod = rs.getString("paymentMethod");
+					String cardNo = rs.getString("cardNo");
+					String email = rs.getString("email");
+					
+					
+					//add to the above created table
+					
+				
+					output += "<td>"+accountNo+"</td>";
+					output += "<td>"+paymentAmount+"</td>";
+					output += "<td>"+paymentMethod+"</td>";
+					output += "<td>"+cardNo+"</td>";
+					output += "<td>"+email+"</td>";
+					
+					//buttons
+					output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
+								+"<td><form method='post' action ='payment.jsp'>"
+								+"<input name ='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
+								+"<input name='paymentID' type='hidden' value='"+paymentID+"'>"+"</form></td></tr>";
+					
+					
+					}
+				con.close();
+				
+				//completing the created table
+				output += "<table>";
+				}
+				catch (Exception e){
+					output +="Error while reading the inquiries";
+					System.err.println(e.getMessage());
+					
+				}
+		
+			return output;
+				}
+				
+		}
+
