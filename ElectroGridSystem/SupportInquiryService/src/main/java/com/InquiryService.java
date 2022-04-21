@@ -17,4 +17,29 @@ import org.jsoup.nodes.Document;
 @Path("/Inquiry")
 public class InquiryService {
 
+
+//create object
+	Inquiry inqObj = new Inquiry();
+	
+	//Insert Inquiry
+	@POST
+	@Path("/")
+	
+	//consumes annotation used to the input type as form data
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	
+	//Create status message and output in plain text
+	@Produces(MediaType.TEXT_PLAIN)
+	
+	//specifying the form elements as the parameters of the insertInquiry()
+	public String insertInquiry(@FormParam("inquiryTitle") String inquiryTitle,
+								@FormParam("inquiryDesc") String inquiryDesc,
+								@FormParam("contactNum") int contactNum) {
+		
+		String output=inqObj.insertInquiry(inquiryTitle, inquiryDesc, contactNum);
+		return output;
+	}
+
+
 }
+
