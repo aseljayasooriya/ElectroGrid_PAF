@@ -13,7 +13,7 @@ public class Inquiry {
 	 Class.forName("com.mysql.jdbc.Driver");
 
 	 //Details of the database
-	 con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/electrogrid", "root", "");
+	 con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/electrogriddb", "root", "");
 	 }
 	 catch (Exception e)
 	 {e.printStackTrace();}
