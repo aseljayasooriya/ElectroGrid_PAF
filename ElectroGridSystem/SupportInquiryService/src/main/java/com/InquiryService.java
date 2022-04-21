@@ -39,7 +39,14 @@ public class InquiryService {
 		String output=inqObj.insertInquiry(inquiryTitle, inquiryDesc, contactNum);
 		return output;
 	}
-
+	
+	//Read Inquiry
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_HTML)
+	public String readInquiry() {
+		return inqObj.readInquiry();
+	}
 
 }
 
