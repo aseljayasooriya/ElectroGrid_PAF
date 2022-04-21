@@ -41,12 +41,33 @@ public class InquiryService {
 	}
 	
 	//Read Inquiry
+	
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
 	public String readInquiry() {
 		return inqObj.readInquiry();
 	}
+	
+	
+	//Update Inquiry
+	
+	@PUT
+	@Path("/")
+	//consumes annotation used to the input type as form data
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	
+	//Create status message and output in plain text
+	@Produces(MediaType.TEXT_PLAIN)
+	
+	public String updateInquiry(@FormParam("inquiryID") int inquiryID,
+								@FormParam("inquiryTitle") String inquiryTitle,
+								@FormParam("inquiryDesc") String inquiryDesc,
+								@FormParam("contactNum") int contactNum) {
+		String output =inqObj.updateInquiry(inquiryID, inquiryTitle, inquiryDesc, contactNum);
+		return output;
+	}
+	
 
 }
 
