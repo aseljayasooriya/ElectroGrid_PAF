@@ -6,14 +6,6 @@ import model.BreakDown;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-////For JSON
-//import com.google.gson.*;
-//
-////For XML
-//import org.jsoup.*;
-//import org.jsoup.parser.*;
-//import org.jsoup.nodes.Document; 
-
 @Path("/Breakdowns")
 public class BreakDownService {
 	
@@ -63,6 +55,14 @@ public class BreakDownService {
 	{
 		String output = breakdownObj.deleteBreakdown(breakdownID);
 		return output;
+	}
+	
+	@GET
+	@Path("/{breakdownSector}")
+	@Produces(MediaType.TEXT_HTML)
+	public String sectorBreakdown(@PathParam("breakdownSector") String breakdownSector)
+	{
+		return breakdownObj.readSectorBreakdowns(breakdownSector);
 	}
 
 }
