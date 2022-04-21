@@ -165,6 +165,45 @@ public class Inquiry {
 	}
 	
 	
+	
+	//Delete Inquiry
+	
+	public String deletInquiry(int inquiryID) {
+		String output="";
+		
+		try {
+			Connection con =connect();
+			
+			if(con==null) {
+				return"Error while connecting to the database for deleting";
+			}
+			
+			//create prepared statement
+			
+			String query ="DELETE from inquiry where inquiryID=?";
+			
+			PreparedStatement preparedStmt =con.prepareStatement(query);
+			
+			//bindValues
+			preparedStmt.setInt(1, inquiryID);
+			
+			//execute the statement
+			preparedStmt.execute();
+			con.close();
+			
+			output="Deleted Sucessfully";
+			
+		}
+		catch(Exception e) {
+			
+			output="Error while deleting the inquiry";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+			
+	
+	
 }
 	
 	
