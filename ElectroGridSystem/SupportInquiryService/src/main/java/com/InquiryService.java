@@ -68,6 +68,21 @@ public class InquiryService {
 		return output;
 	}
 	
-
+	//Delete Inquiry
+	@DELETE
+	@Path("/")
+	
+	//consumes annotation used to the input type as form data
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	
+	//Create status message and output in plain text
+	@Produces(MediaType.TEXT_PLAIN)
+	
+	public String deletInquiry(@FormParam("inquiryID") int inquiryID) {
+		String output =inqObj.deletInquiry(inquiryID);
+		return output;
+	}
+	
+	
 }
 
