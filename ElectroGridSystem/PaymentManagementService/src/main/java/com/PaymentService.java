@@ -24,5 +24,15 @@ public class PaymentService {
 		String output = paymentObj.insertPayment(accountNo, paymentAmount, paymentMethod, cardNo, email);
 		return output;
 	}
+	
+	
+	//Read Inquiry
+	
+		@GET
+		@Path("/")
+		@Produces(MediaType.TEXT_HTML)
+		public String readPayment() {
+			return paymentObj.readPayment();
+		}
 
 }
