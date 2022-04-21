@@ -123,6 +123,48 @@ public class Inquiry {
 	
 	
 	
+	//Update inquiry method
+	
+	public String updateInquiry(int ID,String title, String description,int contact) {
+		String output ="";
+		
+		
+		try 
+		{
+			Connection con = connect();
+			
+			if(con==null) {
+				return "Error While connecting to the database for updating";
+			}
+			
+			//create prepared statement
+			
+			String query ="UPDATE inquiry inquiryID=?,inquiryTitle=?,inquiryDesc=?,contactNum=? WHERE inquiryID=?";
+			
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			
+			//bind values
+			preparedStmt.setInt(1, ID);
+			preparedStmt.setString(2, title);
+			preparedStmt.setString(3, description);
+			preparedStmt.setInt(4, contact);
+			
+			//execute statement
+			preparedStmt.execute();
+			con.close();
+			
+			output="Update Sucessfully";
+			
+		}
+		catch (Exception e) {
+			output="Error while updating inquiry";
+			System.err.println(e.getMessage());
+		}
+		
+		return output;
+	}
+	
+	
 }
 	
 	
