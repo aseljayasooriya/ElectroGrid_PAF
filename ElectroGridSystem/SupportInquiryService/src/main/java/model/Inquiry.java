@@ -22,7 +22,7 @@ public class Inquiry {
 	
 	//Create Insert method
 	
-	public String insertInquiry(String title,String description, int contact) {
+	public String insertInquiry(String title,String description, String contact) {
 		String output ="";
 		
 		try 
@@ -35,7 +35,7 @@ public class Inquiry {
 			}
 			
 			//creating prepared statement
-			String query = "insert into inquiry ('inquiryID','inquiryTitle','inquiryDesc','contactNum')"+"values(?,?,?,?)";
+			String query = "insert into inquiry (`inquiryID`,`inquiryTitle`,`inquiryDesc`,`contactNum`)"+" values (?,?,?,?)";
 			
 			PreparedStatement preparedStmt =con.prepareStatement(query);
 			
@@ -43,7 +43,7 @@ public class Inquiry {
 			preparedStmt.setInt(1, 0);
 			preparedStmt.setString(2, title);
 			preparedStmt.setString(3, description);
-			preparedStmt.setInt(4,contact);
+			preparedStmt.setInt(4,Integer.parseInt(contact));
 			
 			//execute the statements
 			preparedStmt.execute();
@@ -94,7 +94,7 @@ public class Inquiry {
 				
 				//add to the above created table
 				
-				output += "<tr><td>"+inquiryID+"</td>";
+//				output += "<tr><td>"+inquiryID+"</td>";
 				output += "<td>"+inquiryTitle+"</td>";
 				output += "<td>"+inquiryDesc+"</td>";
 				output += "<td>"+contactNum+"</td>";
