@@ -26,13 +26,29 @@ public class PaymentService {
 	}
 	
 	
-	//Read Inquiry
+	//Read Payment
 	
 		@GET
 		@Path("/")
 		@Produces(MediaType.TEXT_HTML)
 		public String readPayment() {
 			return paymentObj.readPayment();
+		}
+		
+		//update payments
+		@PUT
+		@Path("/")
+		//to specify the input type as form data
+		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+		//produce a status message as an output
+		@Produces(MediaType.TEXT_PLAIN)
+		public String updatePayment(@FormParam("paymentID") String paymentID,@FormParam("accountNo") String accountNo,
+				                 @FormParam("paymentAmount") String paymentAmount,@FormParam("paymentMethod") String paymentMethod, 
+				                 @FormParam("cardNo") String cardNo, @FormParam("email") String email) 
+		{ 
+			String output = paymentObj.updatePayment(paymentID,accountNo, paymentAmount, paymentMethod, cardNo, email);
+			return output;
+		
 		}
 
 }
