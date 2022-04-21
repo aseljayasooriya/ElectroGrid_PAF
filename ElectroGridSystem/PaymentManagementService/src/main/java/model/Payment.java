@@ -57,7 +57,7 @@ public class Payment {
 				
 			}
 			catch (Exception e) {
-				output = "Error while inserting the breakdown info.";
+				output = "Error while inserting the payments";
 				System.err.println(e.getMessage());
 			}
 			
@@ -123,7 +123,7 @@ public class Payment {
 				output += "<table>";
 				}
 				catch (Exception e){
-					output +="Error while reading the inquiries";
+					output +="Error while reading the payments";
 					System.err.println(e.getMessage());
 					
 				}
