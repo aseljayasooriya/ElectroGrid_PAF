@@ -60,7 +60,71 @@ public class Inquiry {
 	}
 	
 	
+	//read method
+	
+	public String readInquiry()
+	{
+		String output="";
+		
+		try {
+			
+			Connection con = connect();
+			
+			if(con==null) {
+				return "Error while connecting to the database for reading the inquiry";
+			}
+			//creating a table using html to display the inquires
+			
+			output ="<table border ='1'><tr><th>Inquiry Title</th><th>Inquiry Description</th><th>Contact Number</th><th>Update</th><th>Remove</th></tr>";
+			
+			String query = "select * from inquiry";
+			
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			//go through all the rows in the result set using a while loop
+			
+			while(rs.next()) 
+			{
+				
+				String inquiryID = Integer.toString(rs.getInt("inquiryID"));
+				String inquiryTitle=rs.getString("inquiryTitle");
+				String inquiryDesc =rs.getString("inquiryDesc");
+				String contactNum=Integer.toString(rs.getInt("contactNum"));
+				
+				//add to the above created table
+				
+				output += "<tr><td>"+inquiryID+"</td>";
+				output += "<td>"+inquiryTitle+"</td>";
+				output += "<td>"+inquiryDesc+"</td>";
+				output += "<td>"+contactNum+"</td>";
+				
+				//buttons
+				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
+							+"<td><form method='post' action ='inquiry.jsp'>"
+							+"<input name ='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
+							+"<input name='inquiryID' type='hidden' value='"+inquiryID+"'>"+"</form></td></tr>";
+				
+				
+			}
+			con.close();
+			
+			//completing the created table
+			output += "<table>";
+			}
+			catch (Exception e){
+				output +="Error while reading the inquiries";
+				System.err.println(e.getMessage());
+				
+			}
+	
+		return output;
+	}
 	
 	
 	
 }
+	
+	
+	
+
