@@ -43,7 +43,7 @@ public class Inquiry {
 			preparedStmt.setInt(1, 0);
 			preparedStmt.setString(2, title);
 			preparedStmt.setString(3, description);
-			preparedStmt.setInt(4,Integer.parseInt(contact));
+			preparedStmt.setString(4, contact);
 			
 			//execute the statements
 			preparedStmt.execute();
@@ -90,7 +90,7 @@ public class Inquiry {
 				String inquiryID = Integer.toString(rs.getInt("inquiryID"));
 				String inquiryTitle=rs.getString("inquiryTitle");
 				String inquiryDesc =rs.getString("inquiryDesc");
-				String contactNum=Integer.toString(rs.getInt("contactNum"));
+				String contactNum=rs.getString("contactNum");
 				
 				//add to the above created table
 				
@@ -143,11 +143,12 @@ public class Inquiry {
 			
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			
-			//bind values		
+			//bind values	
+			preparedStmt.setInt(4, Integer.parseInt(ID));
 			preparedStmt.setString(1, title);
 			preparedStmt.setString(2, description);
-			preparedStmt.setInt(3, Integer.parseInt(contact));
-			preparedStmt.setInt(4, Integer.parseInt(ID));
+			preparedStmt.setString(3, contact);
+			
 			
 			//execute statement
 			preparedStmt.execute();
