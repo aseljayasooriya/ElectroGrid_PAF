@@ -25,7 +25,12 @@
 		</plugins>
 	</build>
 	<dependencies>
-
+		<!-- For JAX-RS-->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-bundle</artifactId>
+			<version>1.19.4</version>
+		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-core</artifactId>
