@@ -41,12 +41,7 @@
 			<artifactId>jersey-server</artifactId>
 			<version>1.19.4</version>
 		</dependency>
-		<!--MySQL connector -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.19</version>
-		</dependency>
+
 		<!-- For JSON-->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
