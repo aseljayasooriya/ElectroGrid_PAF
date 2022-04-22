@@ -24,7 +24,7 @@ public class Bill {
 		 
 		 //bill calculation
 		 //Conversion of the String variable into double
-		 double unit = Double.parseDouble(units);
+		 int unit = Integer.parseInt(units);
 		 double unitPrice = 50.00;
 		 //calculation
 		 double tot = unit*unitPrice;
@@ -46,7 +46,7 @@ public class Bill {
 			 preparedStmt.setString(2, billCode); 
 			 preparedStmt.setString(3, accountNo);
 			 preparedStmt.setString(4, billMonth);
-			 preparedStmt.setString(5, units);
+			 preparedStmt.setInt(5, Integer.parseInt(units));
 			 preparedStmt.setString(6, amount);
 			 preparedStmt.setString(7, meterReader_name); 
 			 
@@ -134,7 +134,7 @@ public class Bill {
 		
 		//bill calculation
 		 //Conversion of the String variable into double
-		 double unit = Double.parseDouble(units);
+		 int unit = Integer.parseInt(units);
 		 double unitPrice = 50.00;
 		 //calculation
 		 double tot = unit*unitPrice;
@@ -155,7 +155,7 @@ public class Bill {
 		 preparedStmt.setString(1, billCode); 
 		 preparedStmt.setString(2, accountNo); 
 		 preparedStmt.setString(3, billMonth); 
-		 preparedStmt.setString(4, units);
+		 preparedStmt.setInt(4, Integer.parseInt(units));
 		 preparedStmt.setString(5, amount);
 		 preparedStmt.setString(6, meterReader_name);
 		 preparedStmt.setInt(7, Integer.parseInt(billID));
