@@ -57,7 +57,7 @@ public class Payment {
 				
 			}
 			catch (Exception e) {
-				output = "Error while inserting the breakdown info.";
+				output = "Error while inserting the payments";
 				System.err.println(e.getMessage());
 			}
 			
@@ -123,13 +123,52 @@ public class Payment {
 				output += "<table>";
 				}
 				catch (Exception e){
-					output +="Error while reading the inquiries";
+					output +="Error while reading the payments";
 					System.err.println(e.getMessage());
 					
 				}
 		
 			return output;
 				}
+		
+		//Update method
+		public String updatePayment(String paymentID, String accNo, String pAmount,
+					    String pMethod, String cardNo, String pEmail)
+		{
+			String output = "";
+			
+			 try
+			 { 
+			 Connection con = connect(); 
+			 if (con == null) 
+			 {
+				 return "Error while connecting to the database for updating.";
+			 } 
+			 
+			 // create a prepared statement
+			 String query = "UPDATE payment SET accountNo=?,paymentAmount=?,paymentMethod=?,cardNo=?, email = ? WHERE paymentID=?"; 
+			 PreparedStatement preparedStmt = con.prepareStatement(query);
+			 
+			 // binding values
+			 preparedStmt.setString(1, accNo);
+			 preparedStmt.setDouble(2, Double.parseDouble(pAmount));
+		         preparedStmt.setString(3, pMethod);
+			 preparedStmt.setString(4, cardNo);
+			 preparedStmt.setString(5, pEmail);
+			 preparedStmt.setInt(6, Integer.parseInt(paymentID));
+			 
+			 // execute the statement
+			 preparedStmt.execute(); 
+			 con.close(); 
+			 output = "Updated successfully"; 
+			 } 
+			 catch (Exception e) 
+			 { 
+			 output = "Error while updating the payment."; 
+			 System.err.println(e.getMessage()); 
+			 } 
+			 return output;
+		}
 				
 		}
 
