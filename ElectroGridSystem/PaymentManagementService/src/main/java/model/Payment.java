@@ -1,6 +1,14 @@
-package model;
+package com;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class Payment {
 
@@ -61,56 +69,41 @@ public class Payment {
 
 	// read method
 
-	public String readPayment() {
-		String output = "";
+	public JSONArray readPayment(String accNo) {
+		JSONArray output = new JSONArray();
 
 		try {
-
 			Connection con = connect();
 
 			if (con == null) {
-				return "Error while connecting to the database for reading the Payment";
+				System.err.println("Error while connecting to the database for updating.");
+				return null;
 			}
-			// creating a table using html to display the payments
-			output = "<table border ='1'><tr><th>Account Number</th><th>Payment Amount</th><th>Payment Method</th><th>Card Number</th><th>email</th><th>Update</th><th>Remove</th></tr>";
 
-			String query = "select * from payment";
+			String query = "select * from payment ";
+			if (accNo != null) {
+				query += " where accountNo=?";
+			}
 
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-
+			PreparedStatement preparedStatement = con.prepareStatement(query);
+			if (accNo != null) {
+				preparedStatement.setString(1, accNo);
+			}
+			ResultSet rs = preparedStatement.executeQuery();
 			// go through all the rows in the result set using a while loop
 
 			while (rs.next()) {
-
-				String paymentID = Integer.toString(rs.getInt("paymentID"));
-				String accountNo = rs.getString("accountNo");
-				String paymentAmount = Double.toString(rs.getDouble("paymentAmount"));
-				String paymentMethod = rs.getString("paymentMethod");
-				String cardNo = rs.getString("cardNo");
-				String email = rs.getString("email");
-
-				// add to the above created table
-
-				output += "<td>" + accountNo + "</td>";
-				output += "<td>" + paymentAmount + "</td>";
-				output += "<td>" + paymentMethod + "</td>";
-				output += "<td>" + cardNo + "</td>";
-				output += "<td>" + email + "</td>";
-
-				// buttons
-				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
-						+ "<td><form method='post' action ='payment.jsp'>"
-						+ "<input name ='btnRemove' type='submit' value='Remove' class='btn btn-danger'>"
-						+ "<input name='paymentID' type='hidden' value='" + paymentID + "'>" + "</form></td></tr>";
-
+				JSONObject obj = new JSONObject();
+				obj.put("paymentID", rs.getInt("paymentID"));
+				obj.put("accountNo", rs.getString("accountNo"));
+				obj.put("paymentAmount", rs.getDouble("paymentAmount"));
+				obj.put("paymentMethod", rs.getString("paymentMethod"));
+				obj.put("cardNo", rs.getString("cardNo"));
+				obj.put("email", rs.getString("email"));
+				output.add(obj);
 			}
 			con.close();
-
-			// completing the created table
-			output += "<table>";
 		} catch (Exception e) {
-			output += "Error while reading the payments";
 			System.err.println(e.getMessage());
 
 		}
@@ -120,7 +113,7 @@ public class Payment {
 
 	// Update method
 	public String updatePayment(String paymentID, String accNo, String pAmount, String pMethod, String cardNo,
-			String pEmail) {
+								String pEmail) {
 		String output = "";
 
 		try {
@@ -177,4 +170,67 @@ public class Payment {
 		return output;
 	}
 
+	// get due payments method
+	public double getDueAmount(String accNo, String asOfDate) {
+		final double UNIT_PRICE = 50.0;
+		double output = 0;
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return -1;
+			}
+			int year;
+			int month;
+
+			if (asOfDate != null) {
+				year = LocalDate.parse(asOfDate).getYear();
+				month = LocalDate.parse(asOfDate).getMonthValue();
+			} else {
+				year = LocalDate.now().getYear();
+				month = LocalDate.now().getMonthValue();
+			}
+
+			JSONArray payments = readPayment(accNo);
+			double totalPayments = 0;
+			for (int i = 0; i < payments.size(); i++) {
+				JSONObject payment = (JSONObject) payments.get(i);
+				double paymentAmount = (double) payment.get("paymentAmount");
+				totalPayments += paymentAmount;
+			}
+
+			JSONArray readings = new JSONArray();
+			JSONObject reading;
+			JSONParser parser = new JSONParser();
+			String urlString = "http://localhost/PowerConsumptionService/readings/account/" + accNo + "?year=" + year + "&month=" + month;
+			URL url = new URL(urlString);
+
+			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setRequestMethod("GET");
+			urlConnection.setRequestProperty("Accept", "application/json");
+
+			if (urlConnection.getResponseCode() != 201) {
+				throw new RuntimeException("Failed : HTTP error code : "
+						+ urlConnection.getResponseCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					(urlConnection.getInputStream())));
+
+			String response;
+			while ((response = br.readLine()) != null) {
+				readings = (JSONArray) parser.parse(response);
+			}
+			double numberOfUnits = 0;
+
+			if (readings.size() > 0) {
+				reading = (JSONObject) readings.get(0);
+				numberOfUnits = Double.parseDouble(reading.get("reading").toString());;
+			}
+			con.close();
+			output = numberOfUnits * UNIT_PRICE - totalPayments;
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage() + e.toString());
+		}
+		return output;
+	}
 }
