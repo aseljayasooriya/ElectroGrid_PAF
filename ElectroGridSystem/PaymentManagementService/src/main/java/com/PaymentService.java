@@ -1,6 +1,6 @@
-package model;
+package com;
 
-import com.Payment;
+import model.Payment;
 import org.json.simple.JSONArray;
 
 //For REST Service
