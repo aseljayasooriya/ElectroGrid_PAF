@@ -1,28 +1,22 @@
-package com;
+package model;
 
-import javax.swing.text.Document;
+import com.Payment;
+import org.json.simple.JSONArray;
+
 //For REST Service
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 //For XML
 import org.jsoup.Jsoup;
 import org.jsoup.parser.Parser;
 
-import model.Payment; 
-
 @Path("/Payments")
 public class PaymentService {
-	
+
 	Payment paymentObj = new Payment();
-	
+
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -32,21 +26,30 @@ public class PaymentService {
 			 						@FormParam("paymentMethod") String paymentMethod,
 			 						@FormParam("cardNo") String cardNo,
 			 						@FormParam("email") String email) {
-		
+
 		String output = paymentObj.insertPayment(accountNo, paymentAmount, paymentMethod, cardNo, email);
 		return output;
 	}
-	
-	
+	// get due payments
+	@GET
+	@Path("/account/{accountNo}/due")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getDuePayments(@PathParam("accountNo") String accountNo,
+								 @QueryParam("asOfDate") String asOfDate) {
+		return Response.status(200).entity(String.valueOf(paymentObj.getDueAmount(accountNo, asOfDate))).build();
+	}
+
+
 	//Read Payment
-	
+
 		@GET
 		@Path("/")
-		@Produces(MediaType.TEXT_HTML)
-		public String readPayment() {
-			return paymentObj.readPayment();
+		@Produces(MediaType.APPLICATION_JSON)
+		public Response readPayment(@QueryParam("accountNo") String accountNo) {
+			JSONArray response = paymentObj.readPayment(accountNo);
+			return Response.status(200).entity(response).build();
 		}
-		
+
 		//update payments
 		@PUT
 		@Path("/")
@@ -55,14 +58,14 @@ public class PaymentService {
 		//produce a status message as an output
 		@Produces(MediaType.TEXT_PLAIN)
 		public String updatePayment(@FormParam("paymentID") String paymentID,@FormParam("accountNo") String accountNo,
-				                 @FormParam("paymentAmount") String paymentAmount,@FormParam("paymentMethod") String paymentMethod, 
-				                 @FormParam("cardNo") String cardNo, @FormParam("email") String email) 
-		{ 
+				                 @FormParam("paymentAmount") String paymentAmount,@FormParam("paymentMethod") String paymentMethod,
+				                 @FormParam("cardNo") String cardNo, @FormParam("email") String email)
+		{
 			String output = paymentObj.updatePayment(paymentID,accountNo, paymentAmount, paymentMethod, cardNo, email);
 			return output;
-		
+
 		}
-		
+
 		//delete payments---------------------------------------------------------
 		@DELETE
 		@Path("/")
@@ -78,5 +81,7 @@ public class PaymentService {
 		 String output = paymentObj.deletePayment(paymentID1);
 		return output;
 		}
+
+
 
 }
