@@ -55,7 +55,7 @@ public class MeterReadingService {
 			connection = DBConnection.getDBConnection();
 
 			// creating the prepared statement
-			String query = " INSERT INTO meter_reading (`meter_reader_id`,`account_no`,`year`, `month`, `reading`,`archived`) VALUES (?, ?, ?, ?, ?, ?)";
+			String query = " INSERT INTO meter_reading (`meter_reader_id`,`account_no`,`year`, `month`, `reading`) VALUES (?, ?, ?, ?, ?)";
 
 			preparedStatement = connection.prepareStatement(query);
 
@@ -65,7 +65,6 @@ public class MeterReadingService {
 			preparedStatement.setInt(3, meterReading.getYear());
 			preparedStatement.setInt(4, meterReading.getMonth());
 			preparedStatement.setInt(5, meterReading.getReading());
-			preparedStatement.setInt(6, 0);
 
 			// execute the statement
 			preparedStatement.execute();
@@ -95,7 +94,7 @@ public class MeterReadingService {
 		try {
 			connection = DBConnection.getDBConnection();
 
-			String query = "select * from meter_reading where archived = 0";
+			String query = "select * from meter_reading";
 
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -123,7 +122,7 @@ public class MeterReadingService {
 			connection = DBConnection.getDBConnection();
 
 			String query = "select * from meter_reading where account_no = ? "
-					+ (year != 0 ? "and year = ? " : "" ) + (month != 0 ? "and month = ? " : "") + "and archived = 0";
+					+ (year != 0 ? "and year = ? " : "" ) + (month != 0 ? "and month = ? " : "");
 
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, accountNo);
@@ -188,7 +187,7 @@ public class MeterReadingService {
 			connection = DBConnection.getDBConnection();
 
 			// creating the prepared statement
-			String query = " UPDATE meter_reading SET reading = ? WHERE account_no = ? AND year = ? AND month = ? and archived = 0";
+			String query = " UPDATE meter_reading SET reading = ? WHERE account_no = ? AND year = ? AND month = ?";
 
 			preparedStatement = connection.prepareStatement(query);
 
