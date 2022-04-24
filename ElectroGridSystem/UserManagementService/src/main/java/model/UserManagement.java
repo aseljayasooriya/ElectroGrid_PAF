@@ -1,5 +1,8 @@
 package model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.sql.*;
 
 public class UserManagement {
@@ -150,4 +153,28 @@ public class UserManagement {
 		return output;
 	}
 
+	// get users count by sector
+	// method----------------------------------------------------------------------------
+	public int getUsersCountBySector(String sector) {
+		int output = 0;
+		try {
+			Connection con = connect();
+			if (con == null) {
+				throw new Error("Error while connecting to the database for reading user count.");
+			}
+			// create a prepared statement
+			String query = "select count(*) as userCount from usermanagement where userSector=? and userType='O'";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			// binding values
+			preparedStmt.setString(1, sector);
+			// execute the statement
+			ResultSet rs = preparedStmt.executeQuery();
+			// write the results
+			rs.next();
+			output = rs.getInt("userCount") ;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return output;
+	}
 }
