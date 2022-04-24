@@ -22,20 +22,20 @@ public class UserManagementService {
 	 {
 		return userObj.readUsers();
 	}
-	
+
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertUser(@FormParam("userNIC") String userNIC, 
+	public String insertUser(@FormParam("userNIC") String userNIC,
 			@FormParam("userName") String userName,
-			@FormParam("userAddress") String userAddress, 
+			@FormParam("userAddress") String userAddress,
 			@FormParam("userType") String userType,
 			@FormParam("userSector") String userSector) {
 		String output = userObj.insertUser(userNIC, userName, userAddress, userType,userSector);
 		return output;
 	}
-	
+
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -54,7 +54,7 @@ public class UserManagementService {
 	 String output = userObj.updateUser(userID, userNIC, userName, userAddress, userType, userSector);
 	return output;
 	}
-	
+
 	@DELETE
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_XML)
@@ -68,6 +68,14 @@ public class UserManagementService {
 	 String userID = doc.select("userID").text();
 	 String output = userObj.deleteUser(userID);
 	return output;
+	}
+
+	@GET
+	@Path("/sector/{sector}/count")
+	@Produces(MediaType.APPLICATION_JSON)
+	public int getUsersCountBySector(@PathParam("sector") String sector)
+	{
+		return userObj.getUsersCountBySector(sector);
 	}
 
 }

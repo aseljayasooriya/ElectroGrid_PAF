@@ -7,16 +7,14 @@ public class MeterReading {
 	int year;
 	int month;
 	int reading;
-	int archived;
 
 	public MeterReading() {}
 
-	public MeterReading(int meterReaderId, String accountNo, int readYear, int readMonth, int archived) {
+	public MeterReading(int meterReaderId, String accountNo, int readYear, int readMonth) {
 		this.meterReaderId = meterReaderId;
 		this.accountNo = accountNo;
 		this.year = readYear;
 		this.month = readMonth;
-		this.archived = archived;
 	}
 
 	public void setId(int id) {
