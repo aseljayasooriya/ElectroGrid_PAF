@@ -41,7 +41,7 @@ public class BreakDown {
 
 			// get affected Users
 
-			String urlString = "http://localhost:101/UserManagementService/UserManagementService/Users/sector/" + bsector + "/count";
+			String urlString = "http://localhost:8081/UserManagementService/UserManagementService/Users/sector/" + bsector + "/count";
 			URL url = new URL(urlString);
 
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -105,6 +105,7 @@ public class BreakDown {
 					 "<th>Breakdown Start Time</th>" +
 					 "<th>Breakdown End Time</th>" +
 					 "<th>Breakdown Type</th>" +
+					 "<th>No of Affected Users</th>" +
 					 "<th>Update</th><th>Remove</th></tr>";
 
 			String query = "SELECT * FROM breakdowninformation";
@@ -119,6 +120,7 @@ public class BreakDown {
 				String startTime = rs.getString("startTime");
 				String endTime = rs.getString("endTime");
 				String breakdownType = rs.getString("breakdownType");
+				int affectedUsers = rs.getInt("affectedUsers");
 
 				//add into html table
 				output += "<tr><td>" + breakdownSector + "</td>";
@@ -126,6 +128,7 @@ public class BreakDown {
 				output += "<td>" + startTime + "</td>";
 				output += "<td>" + endTime + "</td>";
 				output += "<td>" + breakdownType + "</td>";
+				output += "<td>" + affectedUsers + "</td>";
 
 				//buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
@@ -238,6 +241,7 @@ public String readSectorBreakdowns(String bSector) {
 					 "<th>Breakdown Start Time</th>" +
 					 "<th>Breakdown End Time</th>" +
 					 "<th>Breakdown Type</th>" +
+					 "<th>Affected Users</th>" +
 					 "<th>Update</th><th>Remove</th></tr>";
 
 			//query for extracting the values
@@ -260,6 +264,7 @@ public String readSectorBreakdowns(String bSector) {
 				String startTime = rs.getString("startTime");
 				String endTime = rs.getString("endTime");
 				String breakdownType = rs.getString("breakdownType");
+				int affectedUsers = rs.getInt("affectedUsers");
 
 				//add into html table
 				output += "<tr><td>" + breakdownSector + "</td>";
@@ -267,6 +272,7 @@ public String readSectorBreakdowns(String bSector) {
 				output += "<td>" + startTime + "</td>";
 				output += "<td>" + endTime + "</td>";
 				output += "<td>" + breakdownType + "</td>";
+				output += "<td>" + affectedUsers + "</td>";
 
 				//buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update' class='btn btn-secondary'></td>"
